@@ -1,110 +1,80 @@
-# Base AI Project for Cursor
+# AiFlashLight - Ứng Dụng Đèn Pin Thông Minh
 
-Đây là base project để sử dụng với Cursor - trợ lý AI IDE mạnh mẽ. Dự án này cung cấp cấu trúc chuẩn và các rule AI được tối ưu hóa để làm việc hiệu quả với mọi loại dự án.
+AiFlashLight là ứng dụng đèn pin thông minh sử dụng AI và cảm biến để mang lại trải nghiệm đèn pin vượt trội so với các ứng dụng đèn pin thông thường.
 
-Version 2.0.0
+## Tính Năng
 
-## Cấu Trúc Tài Liệu "6 Docs"
+- **Đèn Pin Thông Minh**: Bật/tắt đèn flash với điều khiển độ sáng (nếu thiết bị hỗ trợ)
+- **Đèn Màn Hình**: Sử dụng màn hình điện thoại làm nguồn sáng với nhiều tùy chọn màu sắc
+- **SOS Thông Minh**: Phát hiện va chạm tự động và gửi tín hiệu cứu hộ
+- **Thông Báo Khẩn Cấp**: Gửi tin nhắn cầu cứu tự động với vị trí GPS
+- **Hiệu Ứng Âm Nhạc**: Đèn flash nhấp nháy theo nhịp nhạc
+- **Giao Diện Material Design**: UI/UX hiện đại, hỗ trợ chế độ tối/sáng
+- **Đa Ngôn Ngữ**: Hỗ trợ nhiều ngôn ngữ, mặc định tiếng Anh
 
-Dự án này sử dụng cấu trúc tài liệu "6 Docs" được thiết kế đặc biệt để giảm thiểu AI hallucination và tối ưu hóa quá trình phát triển phần mềm:
+## Yêu Cầu Hệ Thống
 
+- Android 6.0 (API 23) trở lên
+- Thiết bị có đèn flash camera (khuyến nghị)
+- Quyền truy cập camera, vị trí, SMS (tùy tính năng)
+
+## Cài Đặt & Phát Triển
+
+### Yêu Cầu
+
+- Android Studio Hedgehog (2023.1.1) trở lên
+- JDK 11 trở lên
+- Gradle 7.2.1 trở lên
+
+### Cài Đặt
+
+1. Clone repository:
 ```
-docs/
-├── 1-PRD.md               # Project Requirements Doc
-├── 2-AppFlow.md           # App Flow Doc
-├── 3-TechStack.md         # Tech Stack Doc
-├── 4-FrontendGuidelines.md # Frontend Guidelines
-├── 5-BackendStructure.md  # Backend Structure Doc
-└── 6-ImplementationPlan.md # Implementation Plan
-```
-
-Xem thêm chi tiết tại [docs/README.md](docs/README.md)
-
-## Hệ Thống Lưu Trữ Kinh Nghiệm
-
-Dự án này tích hợp hệ thống lưu trữ kinh nghiệm để ghi lại và học hỏi từ quá trình phát triển:
-
-```
-experiences/
-├── frontend/            # Kinh nghiệm về frontend
-├── backend/             # Kinh nghiệm về backend
-├── mobile/              # Kinh nghiệm mobile development
-├── devops/              # DevOps, CI/CD, infrastructure
-├── testing/             # QA, testing strategies
-├── ai/                  # AI-related experiences
-├── common/              # Vấn đề chung (workflow, tools)
-└── index.md             # Tổng hợp tất cả kinh nghiệm
+git clone https://github.com/yourusername/AiFlashLight.git
 ```
 
-Hệ thống này giúp:
+2. Mở project trong Android Studio
 
-- Lưu trữ cách giải quyết vấn đề một cách có cấu trúc
-- Giảm thời gian giải quyết vấn đề tương tự trong tương lai
-- Học hỏi từ cả thành công và thất bại
-- Tích hợp với quy trình phát triển hiện có
+3. Sync Gradle và build project
 
-Xem thêm chi tiết tại [experiences/README.md](experiences/README.md) và [experience-system-workflow.mdc](.cursor/rules/experience-system-workflow.mdc)
+4. Chạy trên thiết bị hoặc emulator (lưu ý: emulator có thể không hỗ trợ tính năng đèn flash)
 
-## Tính Cách AI
+## Cấu Trúc Dự Án
 
-Mỗi dự án được gán một "tính cách AI" ngẫu nhiên, giúp tăng tính thú vị khi làm việc và dễ dàng nhận diện các dự án khi lướt qua lịch sử hội thoại:
-
-- **11 tính cách khác nhau**: Tuổi Teen, Hài Hước, Nghiêm Túc, Nhiệt Tình, Trầm Tĩnh, Điên Rồ, Triết Gia, Võ Sĩ, Nhà Thơ, Người Già, Siêu Nhân
-- **Trọng số ưu tiên**: Tính cách Tuổi Teen được ưu tiên cao nhất
-- **Chỉ ảnh hưởng đến giao tiếp**: Tính cách chỉ ảnh hưởng đến giọng điệu trong hội thoại, không ảnh hưởng đến chất lượng code
-
-Xem thêm chi tiết tại [project-personality-generator.mdc](project-personality-generator.mdc)
-
-## Tùy chỉnh workspace
-
-1. Chỉnh sửa file `Base-AI-Project.code-workspace`:
-
-   - Đổi tên "Base-AI-Project" thành tên dự án của bạn
-   - Tùy chỉnh màu sắc theme để phân biệt giữa các dự án
-
-2. Đổi tên file workspace:
-
-```bash
-mv Base-AI-Project.code-workspace MyProject.code-workspace
+```
+app/
+├── src/
+│   ├── main/
+│   │   ├── java/com/aiflashlight/
+│   │   │   ├── activities/         # Các màn hình chính
+│   │   │   ├── fragments/          # Các fragment UI
+│   │   │   ├── services/           # Background services
+│   │   │   ├── managers/           # Các lớp quản lý tính năng
+│   │   │   ├── models/             # Data models
+│   │   │   ├── utils/              # Tiện ích và helper
+│   │   │   ├── views/              # Custom views
+│   │   │   ├── i18n/               # Đa ngôn ngữ
+│   │   │   └── monetization/       # Quảng cáo và premium
+│   │   ├── res/                    # Resources (layouts, strings, drawables...)
+│   │   └── AndroidManifest.xml     # Manifests
+│   └── test/                       # Unit tests
 ```
 
-## Quy trình làm việc
+## Đóng Góp
 
-### Quy Trình Tạo Dự Án Mới
+Đóng góp cho dự án là rất được hoan nghênh. Để đóng góp:
 
-Dự án này cung cấp quy trình đầy đủ để tạo một dự án mới từ đầu:
+1. Fork repository
+2. Tạo branch mới (`git checkout -b feature/amazing-feature`)
+3. Commit thay đổi (`git commit -m 'Add some amazing feature'`)
+4. Push lên branch của bạn (`git push origin feature/amazing-feature`)
+5. Mở Pull Request
 
-1. **Brainstorming** - Thảo luận ý tưởng và yêu cầu dự án
-2. **Thiết lập tài liệu "6 Docs"** - Tạo các tài liệu theo template
-3. **Xây dựng dự án** - Theo Implementation Plan đã định nghĩa
-4. **Kiểm thử và triển khai** - Đảm bảo chất lượng và triển khai
+## Giấy Phép
 
-Xem đầy đủ quy trình tại: [project-creation-workflow.mdc](project-creation-workflow.mdc)
+Distributed under the MIT License. See `LICENSE` for more information.
 
-### Quy Trình Nâng Cấp Dự Án
+## Liên Hệ
 
-Nếu bạn muốn áp dụng cấu trúc "6 Docs" cho dự án hiện tại:
-
-1. **Phân tích dự án hiện tại** - Rà soát codebase và tài liệu
-2. **Backup tài liệu** - Đảm bảo an toàn dữ liệu
-3. **Chuyển đổi tài liệu** - Chuyển sang cấu trúc "6 Docs"
-4. **Tiếp tục phát triển** - Theo quy trình mới
-
-Xem đầy đủ quy trình tại: [project-upgrade-workflow.mdc](project-upgrade-workflow.mdc)
-
-## Templates & Hướng Dẫn
-
-Dự án cung cấp templates đầy đủ cho cấu trúc "6 Docs":
-
-- [1-PRD-template.md](docs/templates/1-PRD-template.md)
-- [2-AppFlow-template.md](docs/templates/2-AppFlow-template.md)
-- [3-TechStack-template.md](docs/templates/3-TechStack-template.md)
-- [4-FrontendGuidelines-template.md](docs/templates/4-FrontendGuidelines-template.md)
-- [5-BackendStructure-template.md](docs/templates/5-BackendStructure-template.md)
-- [6-ImplementationPlan-template.md](docs/templates/6-ImplementationPlan-template.md)
-
-## Tài Liệu Tham Khảo
-
-- [Decisions.md](Decisions.md): Các quyết định thiết kế quan trọng
-- [Changelog.md](Changelog.md): Lịch sử thay đổi
-- [Codebase.md](Codebase.md): Tổng quan về cấu trúc code
+- Email: support@aiflashlight.com
+- Website: www.aiflashlight.com
