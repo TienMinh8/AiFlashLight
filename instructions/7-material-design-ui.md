@@ -1162,3 +1162,166 @@ private void toggleWithScaleAnimation() {
 ```
 
 Với sự kết hợp của các hiệu ứng trên, nút nguồn sẽ có diện mạo và trải nghiệm tương tự như giao diện tham khảo, với hiệu ứng neon phát sáng đặc trưng và khả năng tương tác cao.
+
+## Quản Lý Version Control
+
+### Tối Ưu Hóa Commit
+
+Khi phát triển giao diện Material Design, việc kiểm soát phiên bản là rất quan trọng nhưng cũng nên được tối ưu để không ảnh hưởng đến trải nghiệm phát triển. Dưới đây là cách tùy chỉnh tính năng commit:
+
+```java
+// Trong MaterialDesignManager.java
+
+/**
+ * Cấu hình tần suất commit cho UI components
+ * @param enableAutoCommit Bật/tắt tính năng tự động commit
+ * @param commitInterval Khoảng thời gian giữa các lần commit (phút)
+ */
+public void configureVersionControl(boolean enableAutoCommit, int commitInterval) {
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+    prefs.edit()
+        .putBoolean("ui_auto_commit_enabled", enableAutoCommit)
+        .putInt("ui_commit_interval", commitInterval)
+        .apply();
+    
+    if (enableAutoCommit) {
+        startCommitScheduler(commitInterval);
+    } else {
+        stopCommitScheduler();
+    }
+}
+
+/**
+ * Hàm tắt tính năng commit tự động
+ */
+public void disableAutoCommit() {
+    configureVersionControl(false, 0);
+    Log.i(TAG, "Auto-commit feature has been disabled");
+}
+
+/**
+ * Lên lịch commit theo khoảng thời gian
+ */
+private void startCommitScheduler(int intervalMinutes) {
+    // Khởi tạo job scheduler
+    JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+    
+    ComponentName componentName = new ComponentName(context, CommitJobService.class);
+    JobInfo jobInfo = new JobInfo.Builder(COMMIT_JOB_ID, componentName)
+        .setPeriodic(intervalMinutes * 60 * 1000)
+        .setRequiresDeviceIdle(false)
+        .setRequiresCharging(false)
+        .setPersisted(true)
+        .build();
+    
+    scheduler.schedule(jobInfo);
+}
+
+/**
+ * Hủy lịch commit tự động
+ */
+private void stopCommitScheduler() {
+    JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+    scheduler.cancel(COMMIT_JOB_ID);
+}
+```
+
+### Thiết Lập Trong Màn Hình Cài Đặt
+
+Để cho phép người dùng kiểm soát tính năng commit, hãy thêm các tùy chọn sau vào màn hình cài đặt:
+
+```xml
+<!-- settings_fragment.xml -->
+<PreferenceCategory
+    android:title="Developer Options"
+    app:iconSpaceReserved="false">
+    
+    <SwitchPreferenceCompat
+        android:key="ui_auto_commit_enabled"
+        android:title="Auto-commit UI Changes"
+        android:summary="Automatically commit UI changes to version control"
+        android:defaultValue="true"
+        app:iconSpaceReserved="false" />
+        
+    <SeekBarPreference
+        android:key="ui_commit_interval"
+        android:title="Commit Interval"
+        android:summary="Time between automatic commits (minutes)"
+        android:defaultValue="30"
+        android:min="5"
+        android:max="120"
+        app:showSeekBarValue="true"
+        app:iconSpaceReserved="false"
+        app:dependency="ui_auto_commit_enabled" />
+        
+    <Preference
+        android:key="ui_manual_commit"
+        android:title="Commit Now"
+        android:summary="Manually commit all pending UI changes"
+        app:iconSpaceReserved="false" />
+</PreferenceCategory>
+```
+
+### Xử Lý Logic Trong SettingsFragment
+
+```java
+public class SettingsFragment extends PreferenceFragmentCompat {
+
+    private MaterialDesignManager materialDesignManager;
+    
+    @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.settings, rootKey);
+        
+        materialDesignManager = MaterialDesignManager.getInstance(requireContext());
+        
+        // Bắt sự kiện thay đổi tự động commit
+        SwitchPreferenceCompat autoCommitPref = findPreference("ui_auto_commit_enabled");
+        if (autoCommitPref != null) {
+            autoCommitPref.setOnPreferenceChangeListener((preference, newValue) -> {
+                boolean enabled = (Boolean) newValue;
+                int interval = PreferenceManager.getDefaultSharedPreferences(requireContext())
+                    .getInt("ui_commit_interval", 30);
+                
+                materialDesignManager.configureVersionControl(enabled, interval);
+                return true;
+            });
+        }
+        
+        // Bắt sự kiện thay đổi khoảng thời gian commit
+        SeekBarPreference intervalPref = findPreference("ui_commit_interval");
+        if (intervalPref != null) {
+            intervalPref.setOnPreferenceChangeListener((preference, newValue) -> {
+                int interval = (Integer) newValue;
+                boolean enabled = PreferenceManager.getDefaultSharedPreferences(requireContext())
+                    .getBoolean("ui_auto_commit_enabled", true);
+                
+                if (enabled) {
+                    materialDesignManager.configureVersionControl(true, interval);
+                }
+                return true;
+            });
+        }
+        
+        // Xử lý manual commit
+        Preference manualCommitPref = findPreference("ui_manual_commit");
+        if (manualCommitPref != null) {
+            manualCommitPref.setOnPreferenceClickListener(preference -> {
+                new CommitTask(requireContext()).execute();
+                return true;
+            });
+        }
+    }
+}
+```
+
+### Hướng Dẫn Sử Dụng
+
+Để tắt tính năng commit tự động:
+
+1. Vào màn hình Settings (Cài đặt)
+2. Tìm đến mục Developer Options
+3. Tắt công tắc "Auto-commit UI Changes"
+4. Hoặc điều chỉnh khoảng thời gian commit lâu hơn (tối đa 120 phút)
+
+Tính năng này đặc biệt hữu ích khi bạn đang thử nghiệm nhiều thay đổi UI mà không muốn tạo quá nhiều commit không cần thiết. Thay vào đó, bạn có thể sử dụng nút "Commit Now" để thủ công commit các thay đổi quan trọng khi đã hoàn thành một tính năng UI.
