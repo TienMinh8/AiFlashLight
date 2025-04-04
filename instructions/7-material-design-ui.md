@@ -3,7 +3,25 @@
 ## Tổng Quan
 Module Giao Diện Material Design triển khai giao diện người dùng hiện đại, trực quan và nhất quán cho ứng dụng AiFlashLight. Tập trung vào trải nghiệm người dùng tối ưu, dễ tiếp cận, và thích ứng với đa dạng kích thước thiết bị Android.
 
-## tham khảo giao diện 
+## Tham Khảo Giao Diện 
+Giao diện Flash Alert được thiết kế theo mẫu như hình ảnh tham khảo, với các đặc điểm chính:
+
+### Flash Alert UI
+- Nền tối với màu đen (#000000) làm nền chính
+- Nút nguồn tròn lớn ở trung tâm màn hình với hiệu ứng phát sáng
+  - Màu đỏ neon (#FF0000) khi đèn flash tắt
+  - Màu xanh lơ neon (#00FFFF) khi đèn flash bật
+- Vùng xung quanh nút nguồn có hiệu ứng gradient màu xám
+- Các phần tử giao diện được nhóm trong các card tối màu với góc bo tròn
+- Thanh tiêu đề với tên "Flash light Alert" ở trên cùng
+- Menu hamburger bên trái và nút trợ giúp (?) bên phải
+- Navigation bar với nút Home ở dưới cùng
+
+### Bố Cục Chính
+- 2x2 grid cho bốn chức năng chính: Incoming Calls, SMS, Flashing Type, App Selection
+- Mỗi ô chức năng có icon trực quan và switch bật/tắt
+- Thanh trượt điều chỉnh tốc độ nhấp nháy với giá trị từ 0ms đến 30ms
+- Bottom bar với các biểu tượng chức năng (hiệu ứng đèn flash, home, cài đặt)
 
 ## Yêu Cầu Kỹ Thuật
 
@@ -59,49 +77,34 @@ dependencies {
 ## Quy Tắc Thiết Kế
 
 ### Bảng Màu
-```xml
-<!-- Màu chính -->
-<color name="primary">#2196F3</color>            <!-- Blue 500 -->
-<color name="primary_dark">#1976D2</color>       <!-- Blue 700 -->
-<color name="primary_light">#BBDEFB</color>      <!-- Blue 100 -->
-<color name="accent">#FF5722</color>             <!-- Orange -->
-
-<!-- Màu chức năng -->
-<color name="success">#4CAF50</color>            <!-- Green -->
-<color name="warning">#FFC107</color>            <!-- Amber -->
-<color name="error">#F44336</color>              <!-- Red -->
-<color name="emergency">#D32F2F</color>          <!-- Red 700 -->
-
-<!-- Màu nền -->
-<color name="background_light">#FAFAFA</color>   <!-- Grey 50 -->
-<color name="background_dark">#212121</color>    <!-- Grey 900 -->
-<color name="surface_light">#FFFFFF</color>      <!-- White -->
-<color name="surface_dark">#303030</color>       <!-- Grey 850 -->
-
-<!-- Màu văn bản -->
-<color name="text_primary_light">#DE000000</color>   <!-- Black 87% -->
-<color name="text_secondary_light">#8A000000</color> <!-- Black 54% -->
-<color name="text_primary_dark">#DEFFFFFF</color>    <!-- White 87% -->
-<color name="text_secondary_dark">#8AFFFFFF</color>  <!-- White 54% -->
-```
+- **Màu Chính**: 
+  - Dark: #121212 (nền đen)
+  - Primary: #3700B3
+  - Secondary: #03DAC6
+- **Màu Nhấn**: 
+  - Red Neon: #FF0000 (nút tắt)
+  - Cyan Neon: #00FFFF (nút bật)
+  - Orange Accent: #FF9800 (thanh trượt & thành phần tương tác)
+- **Màu Giao Diện Card**:
+  - Card Background: #1E1E1E
+  - Card Border: #2A2A2A
+- **Màu Văn Bản**:
+  - Primary Text: #FFFFFF
+  - Secondary Text: #B3FFFFFF (70% opacity)
+  - Disabled Text: #61FFFFFF (38% opacity)
 
 ### Typography
-```xml
-<!-- Kiểu chữ -->
-<style name="TextAppearance.AiFlashLight.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
-    <item name="fontFamily">@font/roboto</item>
-    <item name="android:fontFamily">@font/roboto</item>
-    <item name="android:textSize">96sp</item>
-</style>
+- **Headings**: Roboto Medium, 20sp
+- **Subheadings**: Roboto Regular, 16sp
+- **Body**: Roboto Regular, 14sp
+- **Buttons**: Roboto Medium, 14sp
+- **Caption**: Roboto Regular, 12sp
 
-<style name="TextAppearance.AiFlashLight.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
-    <item name="fontFamily">@font/roboto</item>
-    <item name="android:fontFamily">@font/roboto</item>
-    <item name="android:textSize">60sp</item>
-</style>
-
-<!-- Các kiểu văn bản khác: Headline3-6, Subtitle1-2, Body1-2, Button, Caption, Overline -->
-```
+### Elevation & Shadows
+- **Card Elevation**: 2dp
+- **Button Elevation**: 4dp
+- **Dialog Elevation**: 24dp
+- **Shadow Style**: Custom neon glow effects for interactive elements
 
 ## Mã Nguồn Chính
 
@@ -444,3 +447,718 @@ Tính năng được coi là hoàn thành khi:
 - Đã tuân thủ các tiêu chuẩn khả năng tiếp cận
 - Tối ưu hóa hiệu suất cho thiết bị cấp thấp
 - Các tài nguyên (resources) được tổ chức tốt và tái sử dụng qua themes/styles 
+
+## Mã Code Mẫu cho Flash Alert
+
+### Layout XML
+```xml
+<!-- flash_alert_layout.xml -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_dark">
+
+    <!-- Top App Bar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Flash light Alert"
+        app:titleTextColor="@color/white">
+        
+        <ImageView
+            android:id="@+id/ivHelp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_help"
+            android:tint="@color/white" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- Main Power Button -->
+    <com.aiflashlight.views.PowerButtonView
+        android:id="@+id/btnPower"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/gridLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:activeColor="@color/cyan_neon"
+        app:inactiveColor="@color/red_neon" />
+
+    <!-- 2x2 Grid Layout -->
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:columnCount="2"
+        android:rowCount="2"
+        app:layout_constraintTop_toBottomOf="@id/btnPower"
+        app:layout_constraintBottom_toTopOf="@id/sliderCard">
+
+        <!-- Incoming Calls Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardIncomingCalls"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="4dp"
+            app:cardBackgroundColor="@color/card_background"
+            app:cardCornerRadius="12dp">
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_call"
+                        android:tint="@color/green" />
+                    
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Incoming\nCalls"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Enable"
+                        android:textColor="@color/white" />
+                    
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+                    
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchCalls"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- SMS Card - Similar structure -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSms"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="4dp"
+            app:cardBackgroundColor="@color/card_background"
+            app:cardCornerRadius="12dp">
+            
+            <!-- Similar content structure as Incoming Calls -->
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Flashing Type Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardFlashingType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="4dp"
+            app:cardBackgroundColor="@color/card_background"
+            app:cardCornerRadius="12dp">
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_lightning"
+                        android:tint="@color/yellow" />
+                    
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Flashing\nType"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Select"
+                        android:textColor="@color/white" />
+                    
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+                    
+                    <ImageView
+                        android:id="@+id/ivFlashingTypeNext"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_chevron_right"
+                        android:tint="@color/white" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- App Selection Card - Similar to Flashing Type -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardAppSelection"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="4dp"
+            app:cardBackgroundColor="@color/card_background"
+            app:cardCornerRadius="12dp">
+            
+            <!-- Similar content structure as Flashing Type -->
+        </com.google.android.material.card.MaterialCardView>
+    </GridLayout>
+
+    <!-- Flashing Speed Slider Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/sliderCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardBackgroundColor="@color/card_background"
+        app:cardCornerRadius="12dp"
+        app:layout_constraintTop_toBottomOf="@id/gridLayout"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_speed"
+                    android:tint="@color/orange_accent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Flashing Speed"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderSpeed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:valueFrom="0"
+                android:valueTo="30"
+                app:thumbColor="@color/orange_accent"
+                app:trackColorActive="@color/orange_accent"
+                app:trackColorInactive="@color/gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 ms"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30 ms"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Bottom Navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_dark"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+### Mã Custom Power Button
+```java
+public class PowerButtonView extends View {
+    private Paint circlePaint;
+    private Paint glowPaint;
+    private Paint iconPaint;
+    private Path iconPath;
+    private boolean isActive = false;
+    private int activeColor;
+    private int inactiveColor;
+    private float glowRadius = 20f;
+    private ValueAnimator glowAnimator;
+
+    public PowerButtonView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context, attrs);
+    }
+
+    private void init(Context context, AttributeSet attrs) {
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PowerButtonView);
+        activeColor = a.getColor(R.styleable.PowerButtonView_activeColor, 
+                                Color.parseColor("#00FFFF"));
+        inactiveColor = a.getColor(R.styleable.PowerButtonView_inactiveColor, 
+                                 Color.parseColor("#FF0000"));
+        a.recycle();
+
+        circlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        circlePaint.setStyle(Paint.Style.FILL);
+        circlePaint.setColor(Color.DKGRAY);
+
+        glowPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        glowPaint.setStyle(Paint.Style.STROKE);
+        glowPaint.setStrokeWidth(5f);
+        glowPaint.setColor(inactiveColor);
+
+        iconPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        iconPaint.setStyle(Paint.Style.STROKE);
+        iconPaint.setStrokeWidth(8f);
+        iconPaint.setStrokeCap(Paint.Cap.ROUND);
+        iconPaint.setColor(inactiveColor);
+
+        iconPath = new Path();
+
+        // Setup glow animation
+        setupGlowAnimation();
+
+        // Enable touch feedback
+        setClickable(true);
+    }
+
+    private void setupGlowAnimation() {
+        glowAnimator = ValueAnimator.ofFloat(5f, 20f);
+        glowAnimator.setDuration(1500);
+        glowAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        glowAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        glowAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        glowAnimator.addUpdateListener(animation -> {
+            glowRadius = (float) animation.getAnimatedValue();
+            invalidate();
+        });
+        glowAnimator.start();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        
+        int width = getWidth();
+        int height = getHeight();
+        int centerX = width / 2;
+        int centerY = height / 2;
+        int radius = Math.min(width, height) / 2 - 20;
+        
+        // Draw background circle
+        canvas.drawCircle(centerX, centerY, radius, circlePaint);
+        
+        // Draw glow
+        glowPaint.setColor(isActive ? activeColor : inactiveColor);
+        glowPaint.setMaskFilter(new BlurMaskFilter(glowRadius, BlurMaskFilter.Blur.NORMAL));
+        canvas.drawCircle(centerX, centerY, radius, glowPaint);
+        
+        // Draw power icon
+        iconPaint.setColor(isActive ? activeColor : inactiveColor);
+        
+        // Create power icon path
+        iconPath.reset();
+        int iconSize = radius / 2;
+        // Vertical line
+        iconPath.moveTo(centerX, centerY - iconSize / 2);
+        iconPath.lineTo(centerX, centerY + iconSize / 2);
+        // Circle
+        RectF oval = new RectF(centerX - iconSize, centerY - iconSize, 
+                             centerX + iconSize, centerY + iconSize);
+        iconPath.addArc(oval, -60, 300);
+        
+        canvas.drawPath(iconPath, iconPaint);
+    }
+
+    public void toggle() {
+        isActive = !isActive;
+        invalidate();
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        if (this.isActive != active) {
+            this.isActive = active;
+            invalidate();
+        }
+    }
+}
+```
+
+### Activity Java
+```java
+public class FlashAlertActivity extends AppCompatActivity {
+    
+    private PowerButtonView btnPower;
+    private SwitchMaterial switchCalls;
+    private SwitchMaterial switchSms;
+    private Slider sliderSpeed;
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.flash_alert_layout);
+        
+        // Setup Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
+        
+        // Initialize views
+        btnPower = findViewById(R.id.btnPower);
+        switchCalls = findViewById(R.id.switchCalls);
+        switchSms = findViewById(R.id.switchSms);
+        sliderSpeed = findViewById(R.id.sliderSpeed);
+        
+        // Setup listeners
+        btnPower.setOnClickListener(v -> {
+            btnPower.toggle();
+            updateFlashAlertState();
+        });
+        
+        switchCalls.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // Save call alert preference
+            PreferenceManager.getDefaultSharedPreferences(this)
+                .edit()
+                .putBoolean("flash_alert_calls", isChecked)
+                .apply();
+        });
+        
+        switchSms.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // Save SMS alert preference
+            PreferenceManager.getDefaultSharedPreferences(this)
+                .edit()
+                .putBoolean("flash_alert_sms", isChecked)
+                .apply();
+        });
+        
+        sliderSpeed.addOnChangeListener((slider, value, fromUser) -> {
+            if (fromUser) {
+                // Save flash speed preference (0-30ms)
+                PreferenceManager.getDefaultSharedPreferences(this)
+                    .edit()
+                    .putInt("flash_alert_speed", (int) value)
+                    .apply();
+            }
+        });
+        
+        // Load saved preferences
+        loadPreferences();
+    }
+    
+    private void loadPreferences() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isEnabled = prefs.getBoolean("flash_alert_enabled", false);
+        boolean callsEnabled = prefs.getBoolean("flash_alert_calls", false);
+        boolean smsEnabled = prefs.getBoolean("flash_alert_sms", false);
+        int speed = prefs.getInt("flash_alert_speed", 15);
+        
+        btnPower.setActive(isEnabled);
+        switchCalls.setChecked(callsEnabled);
+        switchSms.setChecked(smsEnabled);
+        sliderSpeed.setValue(speed);
+    }
+    
+    private void updateFlashAlertState() {
+        boolean isEnabled = btnPower.isActive();
+        
+        // Save flash alert state
+        PreferenceManager.getDefaultSharedPreferences(this)
+            .edit()
+            .putBoolean("flash_alert_enabled", isEnabled)
+            .apply();
+        
+        // Enable/disable the service
+        if (isEnabled) {
+            // Start the flash alert service
+            Intent serviceIntent = new Intent(this, FlashAlertService.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(serviceIntent);
+            } else {
+                startService(serviceIntent);
+            }
+        } else {
+            // Stop the flash alert service
+            stopService(new Intent(this, FlashAlertService.class));
+        }
+    }
+} 
+```
+
+## Chi Tiết Màn Hình Flash Alert
+
+Màn hình Flash Alert là một trong những giao diện quan trọng của ứng dụng AiFlashLight, cho phép đèn flash nhấp nháy khi có thông báo, cuộc gọi hoặc tin nhắn. Dưới đây là mô tả chi tiết các thành phần của màn hình:
+
+### 1. Thanh Tiêu Đề
+- Màu nền đen (#000000) với tiêu đề "Flash light Alert" màu trắng ở giữa
+- Biểu tượng menu hamburger (≡) ở góc trái
+- Biểu tượng trợ giúp (?) ở góc phải
+- Thiết kế tối giản, không có phần shadow hay divider
+
+### 2. Nút Nguồn Trung Tâm
+- Nút tròn lớn (đường kính khoảng 180dp) ở trung tâm màn hình
+- Nền xám đậm với hiệu ứng neon phát sáng xung quanh
+- Biểu tượng nguồn (power) ở trung tâm nút
+- Hai trạng thái với màu khác nhau:
+  * Đỏ neon (#FF0000) khi tính năng đang tắt
+  * Xanh lơ neon (#00FFFF) khi tính năng đang bật
+
+### 3. Grid Tùy Chọn (2×2)
+Phần grid được chia thành 4 ô đều nhau, mỗi ô là một card riêng biệt:
+
+#### a. Card "Incoming Calls"
+- Nền card màu xám đậm (#1E1E1E) với góc bo tròn
+- Icon điện thoại màu xanh lá (#4CAF50) ở bên trái
+- Văn bản "Incoming Calls" màu trắng
+- Phần dưới có nhãn "Enable" và switch bật/tắt
+- Switch có màu xanh cyan khi bật, xám khi tắt
+
+#### b. Card "SMS"
+- Cùng cấu trúc với card "Incoming Calls"
+- Icon tin nhắn màu xanh dương (#2196F3)
+- Văn bản "SMS" màu trắng
+- Switch điều khiển tính năng nhấp nháy khi có SMS
+
+#### c. Card "Flashing Type"
+- Icon sấm sét màu vàng (#FFC107)
+- Văn bản "Flashing Type" màu trắng
+- Thay vì switch, có nhãn "Select" và biểu tượng mũi tên (>)
+- Khi nhấn sẽ mở ra menu chọn kiểu nhấp nháy
+
+#### d. Card "App Selection"
+- Icon ứng dụng nhiều màu
+- Văn bản "App Selection" màu trắng
+- Nhãn "Select" và biểu tượng mũi tên (>)
+- Cho phép chọn ứng dụng nào sẽ kích hoạt đèn flash
+
+### 4. Slider Tốc Độ Nhấp Nháy
+- Card lớn chiếm toàn bộ chiều rộng màn hình
+- Nền card màu xám đậm (#1E1E1E) với góc bo tròn
+- Tiêu đề "Flashing Speed" với icon đồng hồ/tốc độ màu cam (#FF9800)
+- Thanh trượt (slider) với:
+  * Thumb màu cam (#FF9800)
+  * Track active màu cam, track inactive màu xám
+  * Giá trị từ 0ms đến 30ms
+  * Nhãn "0 ms" ở bên trái và "30 ms" ở bên phải
+  
+### 5. Thanh Điều Hướng Dưới Cùng
+- Nền màu đen (#000000)
+- 3 biểu tượng chính:
+  * Flash effect (tia sét) - biểu tượng hiện tại
+  * Home (ngôi nhà) - ở giữa
+  * Settings (bánh răng) - bên phải
+- Biểu tượng được active hiển thị màu trắng đậm hơn
+
+### Hiệu Ứng Tương Tác
+- Hiệu ứng ripple khi chạm vào các thành phần tương tác
+- Hiệu ứng nhấn xuống (press state) cho các nút và card
+- Chuyển động mượt mà khi toggle switch
+- Hiệu ứng feedback khi di chuyển thanh trượt
+- Phản hồi haptic (rung nhẹ) khi nhấn nút nguồn chính
+
+### Bố Cục Thích Ứng
+- Khoảng cách giữa các thành phần tỷ lệ với kích thước màn hình
+- Grid tự động điều chỉnh trong chế độ ngang
+- Kích thước nút nguồn trung tâm được điều chỉnh theo kích thước màn hình
+- Tối ưu cả cho điện thoại nhỏ và màn hình lớn
+
+Màn hình Flash Alert cần đảm bảo tính thống nhất với phần còn lại của ứng dụng, đồng thời nổi bật đặc trưng riêng với các hiệu ứng neon và tương tác trực quan.
+
+## Triển Khai Nút Nguồn Phát Sáng
+
+Để tạo nút nguồn phát sáng với hiệu ứng neon như trong giao diện tham khảo, chúng ta sẽ kết hợp phương pháp vẽ tùy chỉnh sử dụng Canvas API và hiệu ứng animation.
+
+### Hiệu Ứng Neon Glow
+Hiệu ứng neon glow được tạo ra bằng cách sử dụng BlurMaskFilter với Paint và một ValueAnimator để làm cho hiệu ứng phát sáng nhấp nháy nhẹ tạo cảm giác sống động.
+
+```java
+// Trong PowerButtonView.java
+
+// Tạo hiệu ứng phát sáng
+private void createGlowEffect(Canvas canvas, int centerX, int centerY, int radius, int color) {
+    Paint glowPaint = new Paint();
+    glowPaint.setStyle(Paint.Style.STROKE);
+    glowPaint.setStrokeWidth(15f);
+    glowPaint.setColor(color);
+    glowPaint.setMaskFilter(new BlurMaskFilter(glowRadius, BlurMaskFilter.Blur.NORMAL));
+    
+    // Vẽ vòng tròn phát sáng
+    canvas.drawCircle(centerX, centerY, radius, glowPaint);
+    
+    // Vẽ thêm vòng tròn nhỏ hơn để tăng cường độ sáng ở trung tâm
+    glowPaint.setStrokeWidth(8f);
+    glowPaint.setMaskFilter(new BlurMaskFilter(glowRadius / 2, BlurMaskFilter.Blur.NORMAL));
+    canvas.drawCircle(centerX, centerY, radius - 10, glowPaint);
+}
+```
+
+### Màu Sắc Phụ Thuộc Trạng Thái
+Màu sắc nút nguồn sẽ tự động chuyển đổi giữa màu đỏ (khi tắt) và màu xanh lơ (khi bật), sử dụng hiệu ứng chuyển đổi màu mượt mà.
+
+```java
+// Trong PowerButtonView.java
+
+// Chuyển đổi màu với hiệu ứng mượt mà
+private void changeColorWithAnimation(int fromColor, int toColor) {
+    ValueAnimator colorAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), fromColor, toColor);
+    colorAnimator.setDuration(300);
+    colorAnimator.addUpdateListener(animation -> {
+        currentColor = (int) animation.getAnimatedValue();
+        invalidate();
+    });
+    colorAnimator.start();
+}
+```
+
+### Phản Hồi Chạm
+Khi người dùng nhấn vào nút nguồn, sẽ có hiệu ứng gợn sóng (ripple effect) và phản hồi rung nhẹ để tăng UX.
+
+```java
+// Trong PowerButtonView.java
+
+// Xử lý sự kiện nhấn với hiệu ứng ripple và phản hồi haptic
+@Override
+public boolean onTouchEvent(MotionEvent event) {
+    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
+        } else {
+            performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+        }
+        
+        // Hiệu ứng ripple
+        createRippleEffect();
+    }
+    if (event.getAction() == MotionEvent.ACTION_UP) {
+        toggle();
+        performClick();
+        return true;
+    }
+    return super.onTouchEvent(event);
+}
+
+private void createRippleEffect() {
+    ValueAnimator rippleAnimator = ValueAnimator.ofFloat(0f, 1f);
+    rippleAnimator.setDuration(300);
+    rippleAnimator.addUpdateListener(animation -> {
+        rippleProgress = (float) animation.getAnimatedValue();
+        invalidate();
+    });
+    rippleAnimator.start();
+}
+```
+
+### Hiệu Ứng Khi Chuyển Đổi Trạng Thái
+Khi chuyển từ trạng thái tắt sang bật và ngược lại, sẽ có hiệu ứng mở rộng và thu nhỏ nhẹ để mô phỏng cảm giác nhấn vật lý.
+
+```java
+// Trong PowerButtonView.java
+
+// Hiệu ứng mở rộng/thu nhỏ khi chuyển trạng thái
+private void toggleWithScaleAnimation() {
+    ValueAnimator scaleDown = ValueAnimator.ofFloat(1f, 0.85f);
+    scaleDown.setDuration(150);
+    scaleDown.addUpdateListener(animation -> {
+        buttonScale = (float) animation.getAnimatedValue();
+        invalidate();
+    });
+    
+    ValueAnimator scaleUp = ValueAnimator.ofFloat(0.85f, 1f);
+    scaleUp.setDuration(150);
+    scaleUp.addUpdateListener(animation -> {
+        buttonScale = (float) animation.getAnimatedValue();
+        invalidate();
+    });
+    
+    scaleDown.addListener(new AnimatorListenerAdapter() {
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            isActive = !isActive;
+            changeColorWithAnimation(isActive ? inactiveColor : activeColor, 
+                                    isActive ? activeColor : inactiveColor);
+            scaleUp.start();
+        }
+    });
+    
+    scaleDown.start();
+}
+```
+
+Với sự kết hợp của các hiệu ứng trên, nút nguồn sẽ có diện mạo và trải nghiệm tương tự như giao diện tham khảo, với hiệu ứng neon phát sáng đặc trưng và khả năng tương tác cao.
