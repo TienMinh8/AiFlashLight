@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_flashlight"
+        android:icon="@drawable/ic_flashlight"
+        android:title="@string/nav_flashlight" />
+    <item
+        android:id="@+id/nav_screen_light"
+        android:icon="@drawable/ic_screen_light"
+        android:title="@string/nav_screen_light" />
+    <item
+        android:id="@+id/nav_sos"
+        android:icon="@drawable/ic_sos"
+        android:title="@string/nav_sos" />
+    <item
+        android:id="@+id/nav_music"
+        android:icon="@drawable/ic_music"
+        android:title="@string/nav_music" />
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/nav_settings" />
+</menu> 

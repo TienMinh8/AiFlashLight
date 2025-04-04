@@ -2,6 +2,31 @@
 
 Tài liệu này ghi lại tất cả các thay đổi đáng chú ý trong dự án AiFlashLight.
 
+## [1.0.0] - 2023-04-04
+### Added
+- Thiết lập cấu trúc dự án ban đầu theo tiêu chuẩn Android
+- Triển khai tính năng đèn pin cơ bản với khả năng bật/tắt
+- Hỗ trợ điều chỉnh độ sáng đèn pin (trên thiết bị hỗ trợ)
+- Tạo bottom navigation cho điều hướng giữa các tính năng
+- Tạo các placeholder cho các tính năng sắp triển khai (Screen Light, SOS, Music Effect, Settings)
+- Thiết kế UI với Material Design, bao gồm dark/light theme
+- Tự động tắt đèn pin khi rời khỏi ứng dụng hoặc tạm dừng
+
+### Technical
+- Sử dụng Camera2 API để điều khiển đèn flash
+- Kiểm tra tương thích thiết bị và xử lý trường hợp thiết bị không có đèn flash
+- Cài đặt cơ chế yêu cầu quyền camera cho đèn flash
+- Thiết lập cấu trúc Fragment để dễ dàng mở rộng sau này
+
+## [Upcoming]
+### Planned
+- Tính năng Đèn Màn Hình với nhiều màu sắc và hiệu ứng
+- Tính năng SOS với phát hiện va chạm tự động
+- Tính năng tin nhắn khẩn cấp với vị trí GPS
+- Hiệu ứng đèn nhảy theo nhạc
+- Thiết lập đa ngôn ngữ
+- Tối ưu hóa pin và hiệu suất
+
 ## [Chưa phát hành]
 
 ### Thiết kế & Tài liệu

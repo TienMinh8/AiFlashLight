@@ -1,169 +1,67 @@
-# AiFlashLight: Hướng Dẫn Sử Dụng 📱💡
+# AiFlashLight - Hướng Dẫn Sử Dụng
 
-## Giới Thiệu
-AiFlashLight là ứng dụng đèn pin thông minh tích hợp công nghệ AI và các cảm biến trên điện thoại của bạn. Ứng dụng không chỉ là một chiếc đèn pin đơn thuần mà còn là công cụ đa năng giúp bạn trong nhiều tình huống, từ sinh hoạt hàng ngày đến các tình huống khẩn cấp.
+## Tổng Quan
 
-## Cài Đặt & Khởi Động
+AiFlashLight là ứng dụng đèn pin thông minh cho Android, tích hợp nhiều tính năng AI và cảm biến, giúp bạn có trải nghiệm đèn pin vượt xa các ứng dụng đèn pin thông thường.
+
+## Tính Năng Chính
+
+### 1. Đèn Pin Cơ Bản
+- **Bật/Tắt Đèn Pin**: Nhấn vào nút đèn pin ở giữa màn hình để bật hoặc tắt đèn pin.
+- **Điều Chỉnh Độ Sáng**: Sử dụng thanh trượt để điều chỉnh độ sáng của đèn pin (lưu ý: tính năng này chỉ hoạt động trên các thiết bị hỗ trợ).
+- **Lưu ý**: Ứng dụng sẽ tự động tắt đèn pin khi bạn chuyển sang màn hình khác hoặc thoát khỏi ứng dụng.
+
+### 2. Đèn Màn Hình (Đang phát triển)
+- Sử dụng màn hình điện thoại làm nguồn sáng
+- Lựa chọn màu sắc khác nhau
+- Điều chỉnh độ sáng
+- Hiệu ứng nhấp nháy
+
+### 3. SOS Thông Minh (Đang phát triển)
+- Phát tín hiệu SOS bằng đèn flash
+- Phát hiện va chạm tự động và kích hoạt SOS
+- Điều chỉnh độ nhạy của cảm biến
+
+### 4. Thông Báo Khẩn Cấp (Đang phát triển)
+- Gửi tin nhắn khẩn cấp với vị trí GPS
+- Cài đặt danh sách liên hệ khẩn cấp
+- Tùy chỉnh nội dung tin nhắn
+
+### 5. Hiệu Ứng Âm Nhạc (Đang phát triển)
+- Đèn flash nhấp nháy theo nhịp nhạc
+- Điều chỉnh độ nhạy và kiểu hiệu ứng
+
+## Quyền Hệ Thống
+
+Ứng dụng cần các quyền sau để hoạt động:
+
+- **Camera**: Để sử dụng đèn flash
+- **Vị trí**: Cho tính năng SOS và thông báo khẩn cấp
+- **SMS**: Để gửi tin nhắn khẩn cấp
+- **Danh bạ**: Để chọn liên hệ khẩn cấp
+- **Ghi âm**: Cho tính năng hiệu ứng âm nhạc
+
+## Hướng Dẫn Cài Đặt
+
 1. Tải ứng dụng từ Google Play Store
-2. Mở ứng dụng
-3. Cấp quyền khi được yêu cầu (camera, vị trí, gửi SMS...)
-4. Ứng dụng sẽ kiểm tra thiết bị của bạn và sẵn sàng sử dụng
+2. Cài đặt và mở ứng dụng
+3. Cấp các quyền cần thiết khi được yêu cầu
+4. Bắt đầu sử dụng các tính năng
 
-## Các Tính Năng Chính
+## Câu Hỏi Thường Gặp
 
-### 1. Đèn Pin Cơ Bản 💡
-**Cách sử dụng:**
-- Chạm vào nút lớn ở trung tâm màn hình để bật/tắt đèn flash
-- Sử dụng thanh trượt để điều chỉnh độ sáng (nếu thiết bị hỗ trợ)
-- Thêm widget vào màn hình chính hoặc sử dụng Quick Tile để truy cập nhanh
+### Ứng dụng báo "Đèn pin không khả dụng"?
+Điều này có nghĩa là thiết bị của bạn không có đèn flash hoặc đèn flash không thể truy cập được. Bạn vẫn có thể sử dụng tính năng Đèn Màn Hình thay thế.
 
-**Mẹo:**
-- Sử dụng chế độ "Độ sáng thấp" để tiết kiệm pin
-- Bật "Tự động tắt" để đèn tự tắt sau một khoảng thời gian
+### Tại sao không điều chỉnh được độ sáng đèn pin?
+Không phải tất cả các thiết bị đều hỗ trợ điều chỉnh độ sáng đèn pin. Tính năng này chỉ hoạt động trên các thiết bị Android 13 trở lên và có hỗ trợ phần cứng.
 
-### 2. Đèn Màn Hình 📱
-**Cách sử dụng:**
-- Chuyển đến tab "Đèn Màn Hình"
-- Kéo thanh trượt độ sáng để điều chỉnh
-- Điều chỉnh nhiệt độ màu từ ấm đến lạnh
-- Kết hợp cả đèn flash và đèn màn hình để ánh sáng tối đa
-
-**Mẹo:**
-- Ánh sáng màu đỏ giúp bảo vệ thị lực trong đêm tối
-- Chế độ "Tiết kiệm pin" sẽ giảm độ sáng nhưng kéo dài thời gian sử dụng
-
-### 3. SOS Thông Minh 🆘
-**Cách sử dụng:**
-- Chuyển đến tab "SOS"
-- Chạm vào nút SOS lớn để kích hoạt thủ công
-- Thiết lập mức độ nhạy để phát hiện va chạm tự động
-- Khi kích hoạt, đèn flash sẽ nhấp nháy theo mã Morse SOS
-
-**Thiết lập phát hiện va chạm:**
-1. Vào phần "Cài đặt SOS"
-2. Bật "Phát hiện va chạm"
-3. Điều chỉnh mức độ nhạy phù hợp
-4. Thiết lập thời gian xác nhận trước khi gửi SOS
-
-**Mẹo:**
-- Kiểm tra và cập nhật danh sách liên hệ khẩn cấp thường xuyên
-- Thực hiện kiểm tra định kỳ để đảm bảo tính năng hoạt động chính xác
-
-### 4. Thông Báo Khẩn Cấp 📲
-**Cách thiết lập:**
-1. Vào phần "Cài đặt" > "Thông báo khẩn cấp"
-2. Thêm liên hệ khẩn cấp (tối đa 5 số điện thoại)
-3. Tùy chỉnh tin nhắn mẫu
-4. Thiết lập tùy chọn gửi vị trí GPS
-
-**Khi kích hoạt:**
-- Tin nhắn khẩn cấp sẽ tự động gửi đến các liên hệ đã thiết lập
-- Vị trí GPS của bạn sẽ được cập nhật liên tục (nếu bật)
-- Bạn có thể hủy trong vòng 5 giây trước khi tin nhắn được gửi
-
-**Mẹo:**
-- Sử dụng tính năng "Kiểm tra" để gửi tin nhắn thử nghiệm
-- Thông báo cho liên hệ khẩn cấp rằng họ đã được thêm vào danh sách
-
-### 5. Hiệu Ứng Âm Nhạc 🎵
-**Cách sử dụng:**
-1. Chuyển đến tab "Hiệu ứng"
-2. Chọn "Nhịp nhạc"
-3. Chọn một hiệu ứng từ thư viện
-4. Chạm "Bắt đầu" để đèn flash nhấp nháy theo nhạc
-5. Tùy chỉnh độ nhạy và kiểu hiệu ứng
-
-**Các chế độ hiệu ứng:**
-- **Beat**: Nhấp nháy theo nhịp bass
-- **Tần số**: Phản ứng với các dải tần số khác nhau
-- **Giai điệu**: Theo dõi đường giai điệu chính
-- **Tùy chỉnh**: Tạo hiệu ứng riêng của bạn
-
-**Mẹo:**
-- Hiệu ứng hoạt động tốt nhất trong không gian tối
-- Đặt điện thoại sao cho đèn flash hướng về khu vực cần chiếu sáng
-
-## Cài Đặt & Tùy Chỉnh
-
-### Ngôn Ngữ
-1. Vào "Cài đặt" > "Ngôn ngữ"
-2. Chọn ngôn ngữ ưa thích từ danh sách (Tiếng Anh, Tiếng Việt, v.v.)
-3. Ứng dụng sẽ được chuyển đổi ngay lập tức
-
-### Chế Độ Tối/Sáng
-- Vào "Cài đặt" > "Giao diện"
-- Chọn "Sáng", "Tối" hoặc "Theo hệ thống"
-
-### Tối Ưu Pin
-- Vào "Cài đặt" > "Pin & Hiệu suất"
-- Bật "Chế độ tiết kiệm pin" để kéo dài thời gian sử dụng
-- Điều chỉnh độ sáng mặc định cho đèn flash và đèn màn hình
-
-### Hiển Thị Nhanh
-- Thêm widget vào màn hình chính
-  1. Chạm và giữ trên màn hình chính
-  2. Chọn "Widgets"
-  3. Tìm và thêm widget AiFlashLight
-- Sử dụng Quick Tile
-  1. Vuốt xuống từ thanh thông báo
-  2. Vuốt xuống lần nữa để mở rộng
-  3. Chạm "Chỉnh sửa"
-  4. Kéo "AiFlashLight" vào khu vực tiles đang hoạt động
-
-## Gói Premium 💎
-
-### Lợi Ích
-- Loại bỏ tất cả quảng cáo
-- Mở khóa tất cả hiệu ứng âm nhạc
-- Thêm liên hệ khẩn cấp không giới hạn
-- Cập nhật vị trí GPS liên tục trong chế độ SOS
-- Hỗ trợ ưu tiên
-
-### Cách Nâng Cấp
-1. Vào tab "Premium"
-2. Chọn gói phù hợp (Hàng tháng, Hàng năm hoặc Trọn đời)
-3. Hoàn tất thanh toán
-4. Tận hưởng tất cả tính năng Premium ngay lập tức
-
-## Xử Lý Sự Cố
-
-### Đèn Flash Không Hoạt Động
-1. Kiểm tra xem thiết bị có hỗ trợ đèn flash không
-2. Đảm bảo bạn đã cấp quyền camera
-3. Thử khởi động lại ứng dụng
-4. Kiểm tra xem có ứng dụng khác đang sử dụng đèn flash không
-
-### SOS Không Phát Hiện Va Chạm
-1. Kiểm tra xem thiết bị có cảm biến gia tốc không
-2. Tăng mức độ nhạy trong cài đặt
-3. Đảm bảo dịch vụ chạy nền đã được bật
-4. Tắt các tính năng tiết kiệm pin có thể ảnh hưởng đến dịch vụ nền
-
-### Tin Nhắn Khẩn Cấp Không Gửi Được
-1. Kiểm tra kết nối mạng di động
-2. Đảm bảo số điện thoại liên hệ đã được nhập đúng
-3. Xác minh quyền gửi SMS đã được cấp
-4. Kiểm tra saldo tài khoản di động của bạn
-
-### Hiệu Ứng Âm Nhạc Không Hoạt Động
-1. Đảm bảo bạn đã cấp quyền ghi âm
-2. Tăng độ nhạy của phân tích âm thanh
-3. Đảm bảo có âm thanh đang phát
-4. Thử chọn hiệu ứng khác
-
-## Các Phím Tắt Nhanh
-
-| Hành Động | Phím Tắt |
-|-----------|----------|
-| Bật/tắt đèn flash | Nhấn nút nguồn 3 lần nhanh (nếu thiết bị hỗ trợ) |
-| Kích hoạt SOS | Nhấn nút tăng âm lượng 5 lần liên tiếp |
-| Chế độ lặng khi SOS | Nhấn giữ nút giảm âm lượng khi SOS đang hoạt động |
+### Pin của tôi nhanh hết khi sử dụng đèn pin?
+Sử dụng đèn flash tiêu tốn nhiều pin. Để tiết kiệm pin, hãy sử dụng Đèn Màn Hình ở độ sáng thấp khi có thể.
 
 ## Liên Hệ Hỗ Trợ
+
+Nếu bạn gặp vấn đề hoặc có góp ý cải thiện ứng dụng, vui lòng liên hệ:
+
 - Email: support@aiflashlight.com
-- Website: www.aiflashlight.com/support
-- Trong ứng dụng: Cài đặt > Trợ giúp & Phản hồi
-
----
-
-Chúc bạn sử dụng AiFlashLight vui vẻ và an toàn! 🌟 
+- Website: www.aiflashlight.com 

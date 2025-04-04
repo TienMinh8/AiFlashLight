@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AiFlashLight</string>
+    
+    <!-- Common -->
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    
+    <!-- Main Navigation -->
+    <string name="nav_flashlight">Flashlight</string>
+    <string name="nav_screen_light">Screen Light</string>
+    <string name="nav_sos">SOS</string>
+    <string name="nav_music">Music Effect</string>
+    <string name="nav_settings">Settings</string>
+    
+    <!-- Flashlight Module -->
+    <string name="flashlight_title">Flashlight</string>
+    <string name="flashlight_on">Turn On</string>
+    <string name="flashlight_off">Turn Off</string>
+    <string name="flashlight_brightness">Brightness</string>
+    <string name="flashlight_not_available">Flashlight not available on this device</string>
+    <string name="flashlight_permission_required">Camera permission is required to use the flashlight</string>
+    
+    <!-- Screen Light Module -->
+    <string name="screen_light_title">Screen Light</string>
+    <string name="screen_light_color">Color</string>
+    <string name="screen_light_brightness">Brightness</string>
+    <string name="screen_light_strobe">Strobe</string>
+    <string name="screen_light_strobe_speed">Strobe Speed</string>
+    
+    <!-- SOS Module -->
+    <string name="sos_title">SOS Emergency</string>
+    <string name="sos_manual_activation">Manual SOS</string>
+    <string name="sos_auto_detection">Auto Crash Detection</string>
+    <string name="sos_detection_sensitivity">Detection Sensitivity</string>
+    <string name="sos_emergency_contacts">Emergency Contacts</string>
+    <string name="sos_add_contact">Add Contact</string>
+    <string name="sos_message_template">Emergency Message Template</string>
+    <string name="sos_default_message">EMERGENCY! I need help! My location is: %s</string>
+    <string name="sos_testing_mode">Testing Mode</string>
+    <string name="sos_permission_required">SMS and Location permissions are required for SOS features</string>
+    
+    <!-- Music Effect Module -->
+    <string name="music_effect_title">Music Light Effect</string>
+    <string name="music_effect_sensitivity">Microphone Sensitivity</string>
+    <string name="music_effect_style">Effect Style</string>
+    <string name="music_effect_permission_required">Microphone permission is required for Music Light Effect</string>
+    
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_dark_mode">Dark Mode</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_premium">Premium Features</string>
+    <string name="settings_about">About</string>
+    <string name="settings_version">Version</string>
+    
+    <!-- Premium -->
+    <string name="premium_title">Premium Features</string>
+    <string name="premium_remove_ads">Remove Ads</string>
+    <string name="premium_unlock_all">Unlock All Features</string>
+    <string name="premium_restore_purchase">Restore Purchase</string>
+    <string name="premium_purchase_successful">Purchase Successful!</string>
+    <string name="premium_purchase_failed">Purchase Failed</string>
+    
+    <!-- Permissions -->
+    <string name="permission_rationale_title">Permission Required</string>
+    <string name="permission_rationale_message">This app needs %s permission to function properly</string>
+    <string name="permission_denied_title">Permission Denied</string>
+    <string name="permission_denied_message">This feature cannot work without the required permissions</string>
+    <string name="permission_go_to_settings">Go to Settings</string>
+</resources> 

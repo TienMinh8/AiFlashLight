@@ -4,25 +4,25 @@
 
 AiFlashLight là ứng dụng Android viết bằng Java, triển khai dựa trên kiến trúc MVVM (Model-View-ViewModel) kết hợp với Repository Pattern. Ứng dụng được thiết kế theo cấu trúc module, mỗi tính năng được triển khai như một module riêng biệt nhưng vẫn tích hợp chặt chẽ vào ứng dụng tổng thể.
 
-## Cấu Trúc Thư Mục
+## Cấu Trúc Dự Án
 
 ```
 app/
 ├── src/
 │   ├── main/
 │   │   ├── java/com/aiflashlight/
-│   │   │   ├── activities/       # Các màn hình chính
-│   │   │   ├── fragments/        # Các fragment UI
-│   │   │   ├── services/         # Background services
-│   │   │   ├── managers/         # Các lớp quản lý tính năng
-│   │   │   ├── models/           # Data models
-│   │   │   ├── utils/            # Tiện ích và helper
-│   │   │   ├── views/            # Custom views
-│   │   │   ├── i18n/             # Đa ngôn ngữ
-│   │   │   └── monetization/     # Quảng cáo và premium
-│   │   ├── res/                  # Resources
-│   │   └── AndroidManifest.xml   # Manifests
-│   └── test/                     # Unit tests
+│   │   │   ├── activities/         # Các màn hình chính
+│   │   │   ├── fragments/          # Các fragment UI
+│   │   │   ├── services/           # Background services
+│   │   │   ├── managers/           # Các lớp quản lý tính năng
+│   │   │   ├── models/             # Data models
+│   │   │   ├── utils/              # Tiện ích và helper
+│   │   │   ├── views/              # Custom views
+│   │   │   ├── i18n/               # Đa ngôn ngữ
+│   │   │   └── monetization/       # Quảng cáo và premium
+│   │   ├── res/                    # Resources (layouts, strings, drawables...)
+│   │   └── AndroidManifest.xml     # Manifests
+│   └── test/                       # Unit tests
 ```
 
 ## Kiến Trúc Ứng Dụng
@@ -692,8 +692,175 @@ public class AiFlashLightApplication extends Application {
 }
 ```
 
-## Kết Luận
+## Thư Viện Và Dependencies
 
-Codebase của AiFlashLight được thiết kế theo mô hình module hóa với các manager và service riêng biệt cho từng tính năng. Điều này giúp dễ dàng mở rộng, bảo trì và kiểm thử từng thành phần riêng lẻ.
+```gradle
+// Android core
+implementation 'androidx.appcompat:appcompat:1.6.1'
+implementation 'androidx.core:core-ktx:1.10.1'
+implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
 
-Sử dụng kiến trúc MVVM giúp tách biệt UI và logic, giúp code sạch và dễ bảo trì hơn. Các thành phần được thiết kế để giao tiếp với nhau thông qua interface và listeners, tạo ra sự linh hoạt trong việc tích hợp hoặc thay thế các module.
+// UI
+implementation 'com.google.android.material:material:1.8.0'
+implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+// Sensors and hardware
+implementation 'androidx.camera:camera-camera2:1.2.3'
+implementation 'androidx.camera:camera-lifecycle:1.2.3'
+
+// Location
+implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+// Ads & Billing
+implementation 'com.google.android.gms:play-services-ads:22.2.0'
+implementation 'com.android.billingclient:billing:6.0.1'
+
+// Audio processing
+implementation 'com.github.paramsen:noise:2.0.0'
+```
+
+## Quyền Hệ Thống
+
+```xml
+<!-- Camera access for flashlight -->
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-feature android:name="android.hardware.camera.flash" android:required="false" />
+
+<!-- Sensor permissions -->
+<uses-permission android:name="android.permission.VIBRATE" />
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+<uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
+
+<!-- Location for emergency messages -->
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+<!-- SMS for emergency notifications -->
+<uses-permission android:name="android.permission.SEND_SMS" />
+<uses-permission android:name="android.permission.READ_CONTACTS" />
+
+<!-- For keeping screen on -->
+<uses-permission android:name="android.permission.WAKE_LOCK" />
+
+<!-- For audio analysis -->
+<uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+<!-- Internet for ads and premium features -->
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+```
+
+## Activities
+
+### SplashActivity
+- **Chức năng chính**: Màn hình khởi động, hiển thị logo và tên ứng dụng trong một khoảng thời gian ngắn
+- **Các phương thức chính**:
+  - `onCreate()`: Khởi tạo layout và chuyển đến MainActivity sau một khoảng thời gian
+
+### MainActivity
+- **Chức năng chính**: Màn hình chính của ứng dụng, chứa bottom navigation và container cho các fragment
+- **Các phương thức chính**:
+  - `onCreate()`: Khởi tạo UI và yêu cầu quyền camera
+  - `onNavigationItemSelected()`: Xử lý chuyển đổi giữa các fragment khi người dùng chọn item từ bottom navigation
+  - `checkCameraPermission()`: Kiểm tra và yêu cầu quyền camera
+  - `onRequestPermissionsResult()`: Xử lý kết quả yêu cầu quyền
+
+## Fragments
+
+### FlashlightFragment
+- **Chức năng chính**: Hiển thị và điều khiển đèn pin
+- **Các phương thức chính**:
+  - `onCreateView()`: Khởi tạo giao diện fragment
+  - `onViewCreated()`: Khởi tạo các thành phần UI và kiểm tra tính khả dụng của đèn flash
+  - `toggleFlashlight()`: Bật/tắt đèn pin
+  - `updateFlashlightUI()`: Cập nhật UI dựa trên trạng thái đèn pin
+
+### ScreenLightFragment
+- **Chức năng chính**: Placeholder cho tính năng sử dụng màn hình làm nguồn sáng
+- **Các phương thức chính**:
+  - `onCreateView()`: Khởi tạo giao diện fragment
+
+### SosFragment
+- **Chức năng chính**: Placeholder cho tính năng SOS khẩn cấp
+- **Các phương thức chính**:
+  - `onCreateView()`: Khởi tạo giao diện fragment
+
+### MusicEffectFragment
+- **Chức năng chính**: Placeholder cho tính năng đèn flash theo nhạc
+- **Các phương thức chính**:
+  - `onCreateView()`: Khởi tạo giao diện fragment
+
+### SettingsFragment
+- **Chức năng chính**: Placeholder cho tính năng cài đặt ứng dụng
+- **Các phương thức chính**:
+  - `onCreateView()`: Khởi tạo giao diện fragment
+
+## Utils
+
+### FlashlightUtils
+- **Chức năng chính**: Quản lý và điều khiển đèn flash của thiết bị
+- **Các phương thức chính**:
+  - `isFlashlightAvailable()`: Kiểm tra thiết bị có hỗ trợ đèn flash không
+  - `turnOnFlashlight()`: Bật đèn flash với độ sáng cụ thể
+  - `turnOffFlashlight()`: Tắt đèn flash
+  - `setBrightness()`: Điều chỉnh độ sáng của đèn flash (nếu thiết bị hỗ trợ)
+
+## Resources
+
+### Layouts
+- **activity_splash.xml**: Layout cho màn hình khởi động
+- **activity_main.xml**: Layout chính với bottom navigation và container cho fragment
+- **fragment_flashlight.xml**: Layout cho tính năng đèn pin với nút bật/tắt và thanh trượt độ sáng
+- **fragment_screen_light.xml**: Layout cơ bản cho tính năng đèn màn hình (chưa hoàn thiện)
+- **fragment_sos.xml**: Layout cơ bản cho tính năng SOS (chưa hoàn thiện)
+- **fragment_music_effect.xml**: Layout cơ bản cho tính năng hiệu ứng âm nhạc (chưa hoàn thiện)
+- **fragment_settings.xml**: Layout cơ bản cho màn hình cài đặt (chưa hoàn thiện)
+
+### Drawables
+- **ic_flashlight.xml**: Icon đèn pin cho navigation
+- **ic_flashlight_on.xml**: Icon đèn pin đang bật
+- **ic_flashlight_off.xml**: Icon đèn pin đang tắt
+- **ic_screen_light.xml**: Icon đèn màn hình cho navigation
+- **ic_sos.xml**: Icon SOS cho navigation
+- **ic_music.xml**: Icon hiệu ứng âm nhạc cho navigation
+- **ic_settings.xml**: Icon cài đặt cho navigation
+- **splash_background.xml**: Background cho màn hình khởi động
+
+### Menus
+- **bottom_navigation_menu.xml**: Menu cho bottom navigation với 5 item chính
+
+## Luồng Hoạt Động Chính
+
+1. **Khởi Động Ứng Dụng**:
+   - SplashActivity hiển thị logo và tên ứng dụng
+   - Sau khoảng 2 giây, chuyển đến MainActivity
+
+2. **Điều Hướng Trong Ứng Dụng**:
+   - MainActivity chứa BottomNavigationView với 5 tab
+   - Khi chọn tab, MainActivity sẽ thay đổi fragment tương ứng
+   - Mặc định sẽ hiển thị FlashlightFragment đầu tiên
+
+3. **Sử Dụng Đèn Pin**:
+   - Người dùng nhấn nút đèn pin để bật/tắt
+   - FlashlightFragment sử dụng FlashlightUtils để điều khiển đèn flash
+   - Người dùng có thể điều chỉnh độ sáng (nếu thiết bị hỗ trợ)
+   - Khi rời khỏi fragment hoặc ứng dụng, đèn pin sẽ tự động tắt
+
+## Mô Hình Mở Rộng
+
+Dự án được thiết kế để dễ dàng mở rộng với các tính năng mới:
+1. Thêm fragment mới vào package `fragments`
+2. Thêm layout tương ứng vào `res/layout`
+3. Thêm icon tương ứng vào `res/drawable`
+4. Thêm vào bottom navigation menu nếu cần
+5. Thêm các lớp hỗ trợ vào package phù hợp (utils, services, etc.)
+
+## Kế Hoạch Triển Khai Tiếp Theo
+
+1. Hoàn thiện tính năng Đèn Màn Hình
+2. Phát triển tính năng SOS với phát hiện va chạm
+3. Triển khai tính năng gửi tin nhắn khẩn cấp
+4. Phát triển tính năng đèn theo nhạc
+5. Thêm cài đặt và tùy chỉnh
+6. Triển khai đa ngôn ngữ
+7. Thêm tính năng premium và quảng cáo
