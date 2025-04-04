@@ -1,88 +1,59 @@
-# Changelog
+# Changelog: AiFlashLight
 
-## [Unreleased]
+Tài liệu này ghi lại tất cả các thay đổi đáng chú ý trong dự án AiFlashLight.
 
-### Added
+## [Chưa phát hành]
 
-- Tích hợp hệ thống lưu trữ kinh nghiệm dự án với cấu trúc thư mục experiences/
-- Thêm quy tắc experience-system-workflow.mdc để quản lý việc ghi lại và sử dụng kinh nghiệm
-- Tạo template và ví dụ mẫu cho file kinh nghiệm với cấu trúc chuẩn
-- Cấu trúc phân loại kinh nghiệm theo frontend, backend, mobile, devops, testing, AI, và common
-- Tích hợp hệ thống kinh nghiệm vào các quy trình làm việc hiện có
-- Tự động hóa quy trình ghi lại kinh nghiệm sau khi giải quyết vấn đề phức tạp
-- Tính năng tạo ngẫu nhiên tính cách AI cho dự án để tăng trải nghiệm thú vị
-- Thêm file project-personality-generator.mdc để quản lý các tính cách
-- Cập nhật quy trình tạo dự án và nâng cấp dự án để bao gồm bước chọn tính cách
-- Hỗ trợ 11 loại tính cách khác nhau với trọng số ưu tiên
-- Bổ sung quy trình quản lý resource (icon và rule) vào workflow tạo dự án
-- Bổ sung quy trình quản lý resource (icon và rule) vào workflow nâng cấp dự án
-- Tích hợp hướng dẫn sử dụng Icon Library API vào quy trình làm việc
-- Mô tả chi tiết quy trình đồng bộ hóa Cursor Rules
-- Tạo file resource-management.mdc để quản lý tài nguyên trong dự án
-- Cập nhật README.md trong thư mục assets/icons để lưu trữ hướng dẫn từ ICON-LIBRARY-API-GUIDE
-- Cập nhật .cursorrc để thêm resource-management.mdc vào rules áp dụng tự động
-- Bổ sung quy trình sử dụng Supabase MCP trong chế độ nhà phát triển
-- Thêm quy tắc kiểm tra và cấu hình .env cho các dự án Supabase
-- Tạo file supabase-mcp-workflow.mdc chứa hướng dẫn chi tiết
-- Cập nhật workflow dự án mới và nâng cấp dự án để tích hợp Supabase MCP
-- Hướng dẫn cài đặt và sử dụng MCP để kiểm tra database changes
-- Tích hợp DALL-E API để tạo và chuyển đổi ảnh vector
-- Bộ script `scripts/dalle` để tạo ảnh từ prompt, phân tích ảnh, và chuyển đổi thành vector SVG
-- Quy trình làm việc mới `dalle-workflow.mdc` cho việc tạo và quản lý ảnh
-- Cấu trúc thư mục `assets/icons`, `assets/images`, và `assets/illustrations`
-- Cải tiến script DALL-E với tính năng tối ưu prompt tự động cho vector, icon, app icon và UI icon set
-- Thêm cảnh báo chi phí sử dụng DALL-E API trước khi tạo ảnh (~0,08$ mỗi ảnh với DALL-E 3)
-- Bổ sung tham số để bỏ qua cảnh báo chi phí và lưu prompt đi kèm với ảnh đã tạo
-- Cập nhật script analyze_image.js để tối ưu hóa cho việc phân tích và tạo prompt cho ảnh vector
-- Cải thiện script vectorize_image.js với xử lý màu sắc thông minh hơn và hỗ trợ nhiều định dạng đầu vào
+### Thiết kế & Tài liệu
+- Hoàn thành thiết kế cấu trúc toàn bộ ứng dụng
+- Tạo tài liệu hướng dẫn chi tiết cho tất cả các module
+- Tạo tài liệu hướng dẫn sử dụng cho người dùng cuối
+- Thiết lập kế hoạch phát triển và lộ trình
 
-### Changed
+### Module: Basic Flashlight
+- Tạo hướng dẫn chi tiết cho module đèn pin cơ bản
+- Định nghĩa các thành phần chính: CameraManager, FlashlightService, và UI
+- Thiết kế flow xử lý quyền camera và kiểm tra phần cứng
+- Chuẩn bị mẫu code cho điều khiển đèn flash
 
-- Cập nhật cách cài đặt Supabase MCP: sử dụng npm global thay vì cài đặt từ GitHub
-- Bổ sung các tham số cụ thể khi chạy mcp-server-postgrest
-- Nâng cấp quy trình tương tác tích hợp APK
-- Cập nhật tài liệu hướng dẫn
-- Cập nhật README.md để giới thiệu cấu trúc tài liệu mới và hệ thống kinh nghiệm
-- Nâng cấp phiên bản lên 2.0.0 do thay đổi lớn trong cấu trúc tài liệu
-- Cải thiện quy trình làm việc để tập trung vào documentation-first approach
-- Tích hợp cảnh báo chi phí trong quy trình tạo ảnh DALL-E để tránh chi phí không cần thiết
-- Cải thiện UX của các script DALL-E với giao diện dòng lệnh thân thiện và đầy màu sắc
-- Nâng cấp dalle-workflow.mdc với hướng dẫn chi tiết về tối ưu prompt cho từng loại ảnh
+### Module: SOS Thông Minh
+- Tạo hướng dẫn chi tiết cho module SOS thông minh
+- Thiết kế thuật toán phát hiện va chạm từ dữ liệu cảm biến gia tốc
+- Chuẩn bị mẫu code cho mô hình nhận diện tác động
+- Định nghĩa quy trình báo động và xác nhận SOS
 
-### Deprecated
+### Module: Thông Báo Khẩn Cấp
+- Tạo hướng dẫn chi tiết cho module thông báo khẩn cấp
+- Thiết kế cấu trúc quản lý liên hệ khẩn cấp
+- Chuẩn bị mẫu code cho dịch vụ theo dõi GPS và gửi SMS
+- Định nghĩa các mẫu tin nhắn cứu hộ
 
-- Quy trình làm việc cũ không sử dụng cấu trúc "6 Docs"
+### Module: Đèn Màn Hình
+- Tạo hướng dẫn chi tiết cho module đèn màn hình
+- Thiết kế các thành phần chính: ScreenLightManager và LightEmitterView
+- Định nghĩa cơ chế điều khiển độ sáng và nhiệt độ màu
+- Chuẩn bị mẫu code cho màn hình đèn toàn màn hình
 
-## [1.0.1] - 2024-03-23
+### Module: Hiệu Ứng Âm Nhạc
+- Tạo hướng dẫn chi tiết cho module hiệu ứng âm nhạc
+- Thiết kế các thành phần chính: AudioAnalyzer và PatternGenerator
+- Định nghĩa các mẫu hiệu ứng ánh sáng dựa trên phân tích âm thanh
+- Chuẩn bị mẫu code cho xử lý dữ liệu âm thanh thời gian thực
 
-### Added
+### Module: Monetization
+- Tạo hướng dẫn chi tiết cho module monetization
+- Thiết kế cấu trúc AdsManager và BillingManager
+- Định nghĩa các gói Premium và tính năng mở khóa
+- Chuẩn bị mẫu code cho quản lý quảng cáo và giao dịch mua hàng
 
-- Bổ sung quy trình nâng cấp APK từ project Android nguồn
-- Hỗ trợ build APK trực tiếp từ project Android với key debug
-- Cải tiến quy trình tích hợp package từ APK nguồn sang APK đích
-- Tài liệu hướng dẫn cho quy trình tích hợp mới
+### Module: Material Design UI
+- Tạo hướng dẫn chi tiết cho module giao diện Material Design
+- Thiết kế hệ thống theme và bảng màu
+- Định nghĩa các thành phần UI chính: nút đèn flash, navigation, và layout
+- Chuẩn bị mẫu code cho các custom views chính
 
-### Changed
-
-- Nâng cấp quy trình tương tác tích hợp APK
-- Cập nhật tài liệu hướng dẫn
-
-## [2.0.0] - 2024-05-24
-
-### Added
-
-- Cấu trúc tài liệu "6 Docs" mới để giảm thiểu AI hallucination
-- Templates cho 6 tài liệu chính (PRD, App Flow, Tech Stack, Frontend Guidelines, Backend Structure, Implementation Plan)
-- Quy trình tạo dự án mới (project-creation-workflow.mdc)
-- Quy trình nâng cấp dự án (project-upgrade-workflow.mdc)
-- Thư mục docs/ với README.md giải thích về cấu trúc mới
-
-### Changed
-
-- Cập nhật README.md để giới thiệu cấu trúc tài liệu mới
-- Nâng cấp phiên bản lên 2.0.0 do thay đổi lớn trong cấu trúc tài liệu
-- Cải thiện quy trình làm việc để tập trung vào documentation-first approach
-
-### Deprecated
-
-- Quy trình làm việc cũ không sử dụng cấu trúc "6 Docs"
+### Module: I18n (Đa Ngôn Ngữ)
+- Tạo hướng dẫn chi tiết cho module đa ngôn ngữ
+- Thiết kế cấu trúc LanguageManager
+- Chuẩn bị mẫu strings.xml cho các ngôn ngữ chính
+- Định nghĩa quy trình chuyển đổi ngôn ngữ

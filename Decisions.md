@@ -1,211 +1,277 @@
-# Quyết định thiết kế
+# Quyết Định: AiFlashLight
 
-Tài liệu này ghi lại các quyết định thiết kế quan trọng trong dự án. Mỗi quyết định bao gồm ngày, vấn đề, các phương án được xem xét, phương án được chọn và lý do.
+Tài liệu này ghi lại các quyết định thiết kế và kỹ thuật quan trọng trong dự án AiFlashLight, bao gồm lý do và các phương án thay thế đã được xem xét.
 
-## 1. Quản lý Database Trong Dự Án - 2024-05-15
+## 1. Kiến Trúc Ứng Dụng
 
-### Vấn đề
+### Quyết định: Sử dụng kiến trúc MVVM (Model-View-ViewModel)
 
-Dự án cần một cách thức quản lý database hiệu quả, tránh tình trạng tạo nhiều database trùng lặp hoặc thừa thãi, đồng thời đảm bảo việc theo dõi cấu trúc database được nhất quán.
+**Ngày**: Trước khi bắt đầu phát triển
 
-### Phương án được xem xét
+**Bối cảnh**: Cần chọn kiến trúc phù hợp cho ứng dụng Android hiện đại
 
-1. **Phương án A: Quản lý riêng lẻ**:
+**Lựa chọn đã xem xét**:
+- MVP (Model-View-Presenter)
+- MVC (Model-View-Controller)
+- MVVM (Model-View-ViewModel)
+- Clean Architecture
 
-   - Ưu điểm: Linh hoạt, mỗi team có thể tự tạo và quản lý database riêng
-   - Nhược điểm: Dễ dẫn đến trùng lặp, khó kiểm soát, thiếu nhất quán
+**Quyết định**: Chọn MVVM kết hợp với Repository Pattern
 
-2. **Phương án B: Sử dụng ORM tự động migrations**:
+**Lý do**:
+- MVVM được Android chính thức hỗ trợ thông qua Android Architecture Components
+- Tách biệt rõ ràng giữa UI (View) và logic nghiệp vụ (ViewModel)
+- Hỗ trợ tốt cho việc xử lý vòng đời Activity/Fragment thông qua ViewModel
+- LiveData giúp quản lý dữ liệu theo hướng reactive và lifecycle-aware
+- Dễ dàng kiểm thử (ViewModel không phụ thuộc Android Framework)
+- Repository Pattern giúp tách biệt nguồn dữ liệu và logic truy cập
 
-   - Ưu điểm: Tự động hóa cao, dễ theo dõi thay đổi
-   - Nhược điểm: Phức tạp khi cần tích hợp với hệ thống hiện có, yêu cầu cài đặt framework
+## 2. Module Hóa
 
-3. **Phương án C: Tập trung tất cả schema vào file db-schema.sql**:
-   - Ưu điểm: Dễ theo dõi, kiểm soát tập trung, rõ ràng
-   - Nhược điểm: Có thể trở nên lớn theo thời gian, cần quy trình để đảm bảo cập nhật
+### Quyết định: Thiết kế ứng dụng theo cấu trúc module độc lập
 
-### Quyết định
+**Ngày**: Trước khi bắt đầu phát triển
 
-**Phương án được chọn**: Phương án C - Tập trung tất cả schema vào file db-schema.sql
+**Bối cảnh**: Cần quyết định cách tổ chức code cho ứng dụng có nhiều tính năng khác nhau
 
-### Lý do
+**Lựa chọn đã xem xét**:
+- Cấu trúc monolithic (tất cả trong một project)
+- Multi-module theo chức năng (mỗi tính năng một module)
+- Multi-module theo lớp (UI, Domain, Data)
 
-Phương án C được chọn vì:
+**Quyết định**: Sử dụng module logic (các manager và service riêng biệt) trong cùng một project
 
-- Tạo ra một nguồn thông tin duy nhất về cấu trúc database trong dự án
-- Giúp các thành viên team dễ dàng xem xét và hiểu cấu trúc hiện tại
-- Đơn giản, không yêu cầu framework hay công cụ phức tạp
-- Dễ dàng tích hợp vào quy trình làm việc hiện tại
-- Giúp tránh tình trạng tạo database trùng lặp
+**Lý do**:
+- Đơn giản hóa quá trình build và phát triển so với multi-module thực tế
+- Các module logic (manager, service) vẫn giúp phân tách rõ trách nhiệm
+- Dễ dàng tái sử dụng và bảo trì từng thành phần
+- Giảm sự phụ thuộc giữa các tính năng khác nhau
+- Dễ dàng thêm/xóa tính năng trong tương lai
 
-### Tác động
+## 3. Quản Lý Đèn Flash
 
-- Mọi developer phải tuân thủ quy trình kiểm tra db-schema.sql trước khi tạo database mới
-- Cần cập nhật file db-schema.sql sau mỗi thay đổi cấu trúc database
-- Giảm thiểu được số lượng database thừa thãi
-- Tạo ra tài liệu rõ ràng về cấu trúc database cho toàn dự án
+### Quyết định: Sử dụng Camera API thay vì Camera2 API hoặc CameraX
 
-## 2. Áp Dụng Cấu Trúc Tài Liệu "6 Docs" - 2024-05-24
+**Ngày**: Khi thiết kế module Basic Flashlight
 
-### Vấn đề
+**Bối cảnh**: Cần chọn API phù hợp để điều khiển đèn flash
 
-Dự án cần một cách tiếp cận có cấu trúc hơn để tạo tài liệu hiệu quả, đặc biệt khi làm việc với AI như Cursor, nhằm giảm thiểu AI hallucination và tăng cường hiệu quả phát triển.
+**Lựa chọn đã xem xét**:
+- Camera API (cũ)
+- Camera2 API
+- CameraX
 
-### Phương án được xem xét
+**Quyết định**: Sử dụng Camera API kết hợp với CameraManager trên Android M trở lên
 
-1. **Phương án A: Tiếp tục sử dụng cấu trúc tài liệu hiện tại**:
+**Lý do**:
+- Đơn giản hơn cho mục đích chỉ điều khiển đèn flash
+- Tương thích với nhiều thiết bị cũ (từ API 23)
+- Tiêu thụ ít tài nguyên hơn Camera2 hoặc CameraX
+- Trên Android M trở lên, có thể dùng CameraManager.turnOnTorchWithStrengthLevel() để điều chỉnh độ sáng (nếu thiết bị hỗ trợ)
 
-   - Ưu điểm: Quen thuộc, không cần thay đổi quy trình hiện tại
-   - Nhược điểm: Tài liệu phân tán, thiếu cấu trúc rõ ràng, không tối ưu cho AI
+## 4. Background Service
 
-2. **Phương án B: Sử dụng cấu trúc DDD (Domain-Driven Design) cho tài liệu**:
+### Quyết định: Sử dụng Foreground Service với JobScheduler
 
-   - Ưu điểm: Tập trung vào domain, phù hợp với các dự án phức tạp
-   - Nhược điểm: Có thể quá phức tạp cho các dự án nhỏ, khó triển khai nhất quán
+**Ngày**: Khi thiết kế module SOS và Background Processing
 
-3. **Phương án C: Áp dụng cấu trúc "6 Docs"**:
-   - Ưu điểm: Được thiết kế đặc biệt để làm việc với AI, giảm hallucination, cấu trúc rõ ràng từ tổng quan đến chi tiết
-   - Nhược điểm: Yêu cầu thời gian ban đầu để tạo đủ 6 tài liệu, cần đào tạo team về cấu trúc mới
+**Bối cảnh**: Cần duy trì dịch vụ nền để giám sát cảm biến và xử lý tín hiệu SOS
 
-### Quyết định
+**Lựa chọn đã xem xét**:
+- Service thông thường
+- IntentService
+- Foreground Service
+- JobScheduler / WorkManager
 
-**Phương án được chọn**: Phương án C - Áp dụng cấu trúc "6 Docs"
+**Quyết định**: Foreground Service kết hợp với JobScheduler để khởi động lại khi cần
 
-### Lý do
+**Lý do**:
+- Foreground Service ít bị hệ thống kill hơn so với service thông thường
+- Người dùng nhận biết được khi dịch vụ đang chạy (qua notification)
+- Hoạt động tin cậy hơn trên các phiên bản Android mới (8.0+) với các hạn chế chạy nền
+- JobScheduler giúp khôi phục dịch vụ khi bị kill do hệ thống tiết kiệm pin
+- Cung cấp kiểm soát tốt hơn về điều kiện chạy (kết nối mạng, sạc pin, v.v.)
 
-Phương án C được chọn vì:
+## 5. Phát Hiện Va Chạm
 
-- Cấu trúc "6 Docs" được thiết kế đặc biệt để giảm thiểu AI hallucination
-- Cung cấp framework rõ ràng cho việc tạo tài liệu: từ PRD → App Flow → Tech Stack → Frontend/Backend → Implementation
-- Phù hợp với quy trình phát triển dự án từ ý tưởng đến triển khai
-- Tối ưu cho việc làm việc với Cursor và các AI coding assistants khác
-- Dễ dàng theo dõi tiến độ và trạng thái dự án
+### Quyết định: Sử dụng thuật toán tự phát triển thay vì sử dụng thư viện ML
 
-### Tác động
+**Ngày**: Khi thiết kế module SOS Thông Minh
 
-- Tạo thư mục docs/ để lưu trữ các tài liệu theo cấu trúc mới
-- Phát triển templates cho 6 tài liệu chính
-- Cập nhật quy trình làm việc để bao gồm việc tạo và duy trì các tài liệu này
-- Tạo hướng dẫn chuyển đổi cho các dự án hiện có
-- Nâng cấp phiên bản lên 2.0.0 để phản ánh thay đổi quan trọng này
+**Bối cảnh**: Cần chọn phương pháp để phát hiện va chạm qua cảm biến gia tốc
 
-## 3. Áp Dụng Tính Cách Ngẫu Nhiên Cho Dự Án - 2024-05-25
+**Lựa chọn đã xem xét**:
+- Thuật toán ngưỡng đơn giản
+- Thuật toán SVM (Support Vector Machine)
+- TensorFlow Lite với mô hình đã được train
+- Thư viện Google Activity Recognition
 
-### Vấn đề
+**Quyết định**: Thuật toán ngưỡng tùy chỉnh với bộ lọc nhiễu và bộ nhớ đệm
 
-Khi làm việc với nhiều dự án, người dùng cần một cách nhanh chóng để phân biệt và nhận diện các dự án khi lướt qua lịch sử hội thoại. Ngoài ra, việc làm việc với AI có thể trở nên đơn điệu theo thời gian.
+**Lý do**:
+- Đơn giản và nhẹ, không cần thư viện bên ngoài lớn
+- Tiêu thụ ít pin hơn so với giải pháp ML
+- Đủ chính xác cho mục đích phát hiện va chạm mạnh
+- Cho phép người dùng tùy chỉnh độ nhạy
+- Dễ dàng duy trì và cải thiện mà không phụ thuộc vào thư viện bên ngoài
 
-### Phương án được xem xét
+## 6. Định Vị Địa Lý
 
-1. **Phương án A: Sử dụng màu sắc hoặc icon khác nhau**:
+### Quyết định: Sử dụng Google Play Services Location API
 
-   - Ưu điểm: Nhận diện trực quan, dễ triển khai
-   - Nhược điểm: Chỉ tác động đến giao diện, không tạo trải nghiệm tương tác khác biệt
+**Ngày**: Khi thiết kế module Thông Báo Khẩn Cấp
 
-2. **Phương án B: Tạo theme riêng cho mỗi dự án**:
+**Bối cảnh**: Cần chọn API để xác định vị trí người dùng chính xác trong trường hợp khẩn cấp
 
-   - Ưu điểm: Nhận diện mạnh mẽ thông qua giao diện
-   - Nhược điểm: Phức tạp để triển khai, tập trung vào thay đổi giao diện không phải trải nghiệm
+**Lựa chọn đã xem xét**:
+- Location Manager API (Android native)
+- Google Play Services Location API
+- Thư viện bên thứ ba (như LocationIQ)
 
-3. **Phương án C: Gán tính cách ngẫu nhiên cho AI trong mỗi dự án**:
-   - Ưu điểm: Tạo trải nghiệm thú vị, giúp nhận diện dự án qua giọng điệu, không ảnh hưởng đến chất lượng code
-   - Nhược điểm: Có thể gây phân tâm nếu tính cách quá mạnh, cần cân bằng giữa tính chuyên nghiệp và thú vị
+**Quyết định**: Google Play Services Location API (FusedLocationProviderClient)
 
-### Quyết định
+**Lý do**:
+- Cung cấp vị trí chính xác hơn thông qua sự kết hợp của GPS, Wi-Fi, và mạng di động
+- Tiết kiệm pin hơn so với LocationManager thuần túy
+- Xử lý tự động các trường hợp GPS không hoạt động
+- Đã được cài đặt trên hầu hết các thiết bị Android
+- Cung cấp cơ chế geofencing và activity recognition nếu cần mở rộng
 
-**Phương án được chọn**: Phương án C - Gán tính cách ngẫu nhiên cho AI trong mỗi dự án
+## 7. Phân Tích Âm Thanh
 
-### Lý do
+### Quyết định: Sử dụng Fast Fourier Transform (FFT) tùy chỉnh
 
-Phương án C được chọn vì:
+**Ngày**: Khi thiết kế module Hiệu Ứng Âm Nhạc
 
-- Tạo trải nghiệm làm việc thú vị và giảm sự đơn điệu khi tương tác với AI
-- Giúp dễ dàng nhận diện dự án khi lướt qua các cuộc hội thoại
-- Không ảnh hưởng đến chất lượng code hoặc tài liệu, chỉ ảnh hưởng đến giọng điệu trong hội thoại
-- Cho phép người dùng thay đổi tính cách nếu không phù hợp
-- Trọng số cao cho tính cách "Tuổi Teen" đáp ứng yêu cầu của người dùng
+**Bối cảnh**: Cần chọn phương pháp để phân tích âm thanh trong thời gian thực
 
-### Tác động
+**Lựa chọn đã xem xét**:
+- Thư viện TarsosDSP
+- FFT từ Apache Commons Math
+- Triển khai FFT tùy chỉnh
+- OpenSL ES
 
-- Tạo file project-personality-generator.mdc để quản lý các tính cách
-- Cập nhật quy trình tạo dự án và nâng cấp dự án để bao gồm bước chọn tính cách
-- Lưu trữ tính cách được chọn trong file `.project-personality` để duy trì nhất quán
-- Điều chỉnh cách AI tương tác trong các cuộc hội thoại dựa trên tính cách được chọn
-- Người dùng có thể yêu cầu thay đổi tính cách nếu muốn
+**Quyết định**: Sử dụng thư viện com.github.paramsen:noise kết hợp với thuật toán phát hiện nhịp tùy chỉnh
 
-## 4. Tích Hợp DALL-E Để Tạo Ảnh Vector - 2024-05-30
+**Lý do**:
+- Thư viện noise cung cấp FFT hiệu quả được tối ưu hóa bằng C++ thông qua JNI
+- Ít phụ thuộc bên ngoài hơn TarsosDSP
+- Hiệu suất cao hơn Apache Commons Math
+- Độ trễ thấp phù hợp với yêu cầu nhấp nháy theo nhạc
+- Cho phép tùy chỉnh thuật toán phát hiện nhịp dễ dàng hơn
 
-### Vấn đề
+## 8. Quản Lý Màn Hình
 
-Dự án cần một cách tiếp cận thống nhất để tạo ra và quản lý tài nguyên hình ảnh, đặc biệt là icon và vector art, nhằm đảm bảo tính nhất quán và hiệu quả trong quy trình thiết kế.
+### Quyết định: Sử dụng Window Manager kết hợp với WakeLock
 
-### Phương án được xem xét
+**Ngày**: Khi thiết kế module Đèn Màn Hình
 
-1. **Phương án A: Sử dụng thư viện icon có sẵn**:
+**Bối cảnh**: Cần chọn phương pháp để duy trì màn hình sáng ở độ sáng tối đa
 
-   - Ưu điểm: Nhanh chóng, không cần phát triển, nhiều lựa chọn có sẵn
-   - Nhược điểm: Thiếu tính cá nhân hóa, chi phí licenses, phụ thuộc vào nhà cung cấp
+**Lựa chọn đã xem xét**:
+- Activity với cờ KEEP_SCREEN_ON
+- Window Manager với service
+- WakeLock
 
-2. **Phương án B: Thuê designer tạo từng icon/illustration**:
+**Quyết định**: Window Manager trong Foreground Service kết hợp với WakeLock
 
-   - Ưu điểm: Chất lượng cao, kiểm soát hoàn toàn về phong cách
-   - Nhược điểm: Chi phí cao, thời gian chờ đợi lâu, khó điều chỉnh nhanh
+**Lý do**:
+- Cho phép đèn màn hình hoạt động ngay cả khi màn hình bị khóa
+- Giải phóng tài nguyên của Activity
+- Hiệu suất tốt hơn và kiểm soát nhiều hơn đối với độ sáng màn hình
+- Dễ dàng kết hợp với các tính năng đèn flash khác
+- Xử lý tốt chế độ ngắt quãng và tiết kiệm pin
 
-3. **Phương án C: Tích hợp DALL-E để tạo ảnh và chuyển đổi sang vector**:
-   - Ưu điểm: Tạo nhanh chóng, chi phí hợp lý, linh hoạt trong điều chỉnh, tính nhất quán cao
-   - Nhược điểm: Cần tinh chỉnh prompt, kết quả có thể không hoàn hảo, cần xử lý sau khi tạo
+## 9. Monetization
 
-### Quyết định
+### Quyết định: Sử dụng mô hình Freemium với quảng cáo và gói Premium
 
-**Phương án được chọn**: Phương án C - Tích hợp DALL-E để tạo ảnh và chuyển đổi sang vector
+**Ngày**: Khi thiết kế mô hình kinh doanh
 
-### Lý do
+**Bối cảnh**: Cần chọn chiến lược monetization phù hợp
 
-Phương án C được chọn vì:
+**Lựa chọn đã xem xét**:
+- Ứng dụng trả phí
+- Freemium (miễn phí + gói nâng cấp)
+- Chỉ hiển thị quảng cáo
+- Trả phí để xóa quảng cáo
+- Mua hàng trong ứng dụng
 
-- Cho phép tạo nhanh chóng các tài nguyên hình ảnh mà không cần chờ đợi designer
-- Chi phí hợp lý hơn so với thuê designer cho từng asset
-- Quy trình có thể tự động hóa bằng scripts, giúp quản lý tập trung
-- Dễ dàng tạo biến thể và điều chỉnh dựa trên feedback
-- Đảm bảo tính nhất quán về phong cách giữa các tài nguyên
-- Tận dụng công nghệ AI hiện đại để tăng hiệu quả làm việc
+**Quyết định**: Mô hình Freemium kết hợp quảng cáo và subscription
 
-### Tác động
+**Lý do**:
+- Người dùng có thể trải nghiệm các tính năng cơ bản miễn phí
+- Nhiều lựa chọn thu nhập: quảng cáo, gói đăng ký, mua trọn đời
+- Có thể tự động tắt quảng cáo trong trường hợp khẩn cấp (tăng trải nghiệm người dùng)
+- Người dùng có nhiều lựa chọn (gói hàng tháng, hàng năm hoặc trọn đời)
+- Cho phép mở khóa từng tính năng riêng lẻ hoặc toàn bộ
 
-- Phát triển bộ scripts để tạo và xử lý ảnh với DALL-E API
-- Thiết lập cấu trúc thư mục chuẩn để lưu trữ và quản lý tài nguyên
-- Tạo quy định và hướng dẫn sử dụng DALL-E trong dự án
-- Bổ sung quy trình "Tạo ảnh" và "Sửa ảnh" vào các workflow
-- Tạo thư viện icon và illustration nhất quán cho dự án
-- Tiết kiệm thời gian và chi phí trong quá trình phát triển UI
+## 10. Giao Diện Người Dùng
 
----
+### Quyết định: Sử dụng Material Design 3 với các custom components
 
-## 2. [Tên quyết định] - [Ngày]
+**Ngày**: Khi thiết kế UI
 
-### Vấn đề
+**Bối cảnh**: Cần chọn design system phù hợp
 
-[Mô tả vấn đề cần giải quyết]
+**Lựa chọn đã xem xét**:
+- Material Design cơ bản
+- Material Design 3 (Material You)
+- Thiết kế tùy chỉnh hoàn toàn
+- Kết hợp MaterialDesign với các elements của nhà sản xuất (Samsung, Xiaomi)
 
-### Phương án được xem xét
+**Quyết định**: Material Design 3 với Dynamic Colors và một số thành phần tùy chỉnh
 
-1. **Phương án A**:
+**Lý do**:
+- Material Design 3 cung cấp giao diện hiện đại và quen thuộc với người dùng Android
+- Hỗ trợ Dynamic Colors trên Android 12+ tạo trải nghiệm cá nhân hóa
+- Đã tích hợp sẵn các tính năng accessibility
+- Dễ dàng triển khai Dark Mode và Light Mode
+- Cung cấp các thành phần UI đã được tối ưu hóa (buttons, cards, navigation)
+- Custom components cho phép tạo ra sự khác biệt khi cần thiết
 
-   - Ưu điểm: [Liệt kê ưu điểm]
-   - Nhược điểm: [Liệt kê nhược điểm]
+## 11. Đa Ngôn Ngữ
 
-2. **Phương án B**:
-   - Ưu điểm: [Liệt kê ưu điểm]
-   - Nhược điểm: [Liệt kê nhược điểm]
+### Quyết định: Hỗ trợ 10 ngôn ngữ phổ biến với cấu trúc resources
 
-### Quyết định
+**Ngày**: Khi thiết kế module I18n
 
-**Phương án được chọn**: [Tên phương án]
+**Bối cảnh**: Cần quyết định cách triển khai đa ngôn ngữ cho ứng dụng toàn cầu
 
-### Lý do
+**Lựa chọn đã xem xét**:
+- Sử dụng chỉ ngôn ngữ Anh và Việt
+- Sử dụng Android resources chuẩn (values-xx)
+- Sử dụng thư viện bên ngoài (như i18next)
+- Tải ngôn ngữ động từ server
 
-[Giải thích lý do chọn phương án này so với các phương án khác]
+**Quyết định**: Sử dụng Android Resources chuẩn với kết hợp custom LanguageManager
 
-### Tác động
+**Lý do**:
+- Cơ chế Android Resources đã tối ưu hóa và được hỗ trợ tốt
+- Không cần thêm thư viện bên ngoài, giảm kích thước APK
+- Cho phép thay đổi ngôn ngữ trong thời gian chạy mà không cần khởi động lại ứng dụng
+- Dễ dàng thêm ngôn ngữ mới trong tương lai
+- LanguageManager cho phép ghi đè ngôn ngữ hệ thống khi cần thiết
 
-[Mô tả tác động của quyết định này đến dự án]
+## 12. Quản Lý Quyền
+
+### Quyết định: Sử dụng thư viện Android Permissions
+
+**Ngày**: Khi thiết kế xử lý quyền người dùng
+
+**Bối cảnh**: Cần quản lý nhiều quyền khác nhau (camera, location, contacts, SMS) một cách hiệu quả
+
+**Lựa chọn đã xem xét**:
+- Xử lý quyền thủ công bằng ActivityCompat
+- Google's EasyPermissions
+- Permission Dispatcher
+- ActivityResultContracts (API mới từ AndroidX)
+
+**Quyết định**: Sử dụng ActivityResultContracts từ AndroidX
+
+**Lý do**:
+- Là giải pháp chính thức từ Google, được hỗ trợ lâu dài
+- Tích hợp tốt với Fragments và Activities
+- API mới hơn và sạch hơn so với các giải pháp khác
+- Không yêu cầu thư viện bên ngoài
+- Dễ dàng xử lý các trường hợp từ chối quyền và hiển thị giải thích

@@ -2,7 +2,7 @@
 
 ## Tổng quan
 
-Đây là dự án mẫu được tạo để minh họa cấu trúc hướng dẫn cho AI. Mục tiêu của dự án là [mô tả mục tiêu dự án].
+Đây là dự án mẫu được tạo để minh họa cấu trúc hướng dẫn cho AI. Mục tiêu của dự án là [Ứng dụng Đèn Flash là một tiện ích di động giúp người dùng bật/tắt đèn flash trên điện thoại một cách dễ dàng. Ngoài ra, ứng dụng có thể bổ sung các tính năng nâng cao như nhấp nháy theo nhịp điệu, báo hiệu bằng đèn flash khi có cuộc gọi/tin nhắn đến, hoặc chế độ SOS dùng trong trường hợp khẩn cấp. Chế độ nháy theo nhạc, chế độ ánh sáng màn hình RGB, Chữ text ánh sáng. Ứng dụng có doanh thu chính là quảng cáo. Dự án android được sử dụng ngôn ngữ chính là java và là dự án Android].
 
 ## Kiến trúc hệ thống
 
